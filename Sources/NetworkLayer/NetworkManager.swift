@@ -9,12 +9,11 @@ import Foundation
 import Combine
 
 public protocol NetworkManager {
-    associatedtype EndPoint: EndPointType
     var session: URLSession { get }
 }
 
 public extension NetworkManager {
-    func request<Value>(_ route: EndPoint) -> AnyPublisher<Value, Error> where Value: Decodable {
+    func request<Value>(_ route: EndPointType) -> AnyPublisher<Value, Error> where Value: Decodable {
         do {
             let request = try self.buildRequest(from: route)
             return session
@@ -29,7 +28,7 @@ public extension NetworkManager {
 // MARK: - Helpers
 
 private extension NetworkManager {
-    func buildRequest(from route: EndPoint) throws -> URLRequest {
+    func buildRequest(from route: EndPointType) throws -> URLRequest {
         var request = URLRequest(url: route.baseURL.appendingPathComponent(route.path),
                                  cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
                                  timeoutInterval: 10)
