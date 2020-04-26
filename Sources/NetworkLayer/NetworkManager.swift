@@ -11,7 +11,6 @@ import Combine
 public protocol NetworkManager {
     associatedtype EndPoint: EndPointType
     var session: URLSession { get }
-    func request<Value>(_ route: EndPoint) -> AnyPublisher<Value, Error>
 }
 
 public extension NetworkManager {
